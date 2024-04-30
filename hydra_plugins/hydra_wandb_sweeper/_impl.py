@@ -43,6 +43,7 @@ SUPPORTED_DISTRIBUTIONS = {
     "uniform": ["min", "max"],
     "q_uniform": ["min", "max", "q"],
     "log_uniform": ["min", "max"],
+    "log_uniform_values": ["min", "max"],
     "q_log_uniform": ["min", "max", "q"],
     "inv_log_uniform": ["min", "max"],
     "normal": ["mu", "sigma"],
@@ -489,10 +490,10 @@ class WandbSweeperImpl(Sweeper):
         for override in parsed:
             if is_wandb_override(override):
                 # Overriding wandb config params with wandb command line args
-                wandb_params[
-                    override.get_key_element()
-                ] = create_wandb_param_from_override(
-                    override, self.sweep_dict["method"]
+                wandb_params[override.get_key_element()] = (
+                    create_wandb_param_from_override(
+                        override, self.sweep_dict["method"]
+                    )
                 )
             else:
                 hydra_overrides.append(override)
